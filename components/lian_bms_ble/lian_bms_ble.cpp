@@ -128,7 +128,11 @@ void LianBmsBle::gattc_event_handler(esp_gattc_cb_event_t event, esp_gatt_if_t g
       ESP_LOGW(TAG, "BLE disconnected reason=0x%02X", param->disconnect.reason);
       break;
     case ESP_GATTC_SEARCH_CMPL_EVT: {
-      for (auto *svc : this->parent_->get_services()) {
+      // 替换为指定 service_uuid 获取（需根据组件实际用到的 UUID 调整）：
+auto *svc = this->parent_->get_service(target_service_uuid);
+if (svc != nullptr) {
+    // 将原来 for 循环内部的代码放到这里执行
+}
         if (!svc) continue;
         svc->parse_characteristics();
         for (auto *ch : svc->characteristics) {
